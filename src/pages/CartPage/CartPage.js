@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
@@ -14,19 +6,20 @@ import {
   StyleSheet,
   Text,
   View,
-  NativeModules,
 } from 'react-native';
-import {CartPage, DevicePage} from './pages';
+import {Cart} from '../../components';
 
-const App = () => {
+const CartPage = () => {
   return (
     <SafeAreaView>
       <StatusBar />
-      <CartPage />
+      <View>
+        <Cart />
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default App;
+export default CartPage;

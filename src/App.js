@@ -14,10 +14,10 @@ import {
   StyleSheet,
   Text,
   View,
+  NativeModules,
 } from 'react-native';
-import {NativeModules} from 'react-native';
+
 const {MFDeviceInfo} = NativeModules;
-console.log(MFDeviceInfo);
 
 const App = () => {
   const [deviceID, setDeviceID] = useState('');

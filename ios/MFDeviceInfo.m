@@ -6,3 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "React/RCTBridgeModule.h"
+
+@interface RCT_EXTERN_MODULE(MFDeviceInfo, NSObject)
+
+RCT_EXTERN_METHOD(getDeviceID:(RCTResponseSenderBlock)callback)
+
+@end

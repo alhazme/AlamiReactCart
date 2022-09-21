@@ -18,10 +18,6 @@ const App = () => {
     <NavigationContainer>
       <Router />
     </NavigationContainer>
-    // <SafeAreaView>
-    //   <StatusBar />
-    //   <CartPage />
-    // </SafeAreaView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import IconButton from '../../atoms/Button/IconButton';
 
@@ -28,6 +28,65 @@ const Cart = ({data}) => {
     });
   }, []);
 
+  const updateAmount = useCallback(text => {
+    if (text.length > 0) {
+      var updatedAmount = Number(text);
+      if (updatedAmount <= 1) {
+        setPrice(data.price);
+        setAmount(1);
+      } else if (updatedAmount > 1 && updatedAmount <= data.stock) {
+        setPrice(updatedAmount * data.price);
+        setAmount(updatedAmount);
+      } else {
+        setAmount(updatedAmount);
+      }
+    } else {
+      setPrice(0);
+      setAmount(0);
+    }
+  }, []);
+
+  const updateSubmitAmount = useCallback(event => {
+    var text = event.nativeEvent.text;
+    if (text.length > 0) {
+      var updatedAmount = Number(text);
+      if (updatedAmount <= 1) {
+        setPrice(data.price);
+        setAmount(1);
+      } else if (updatedAmount > 1 && updatedAmount <= data.stock) {
+        setPrice(updatedAmount * data.price);
+        setAmount(updatedAmount);
+      } else {
+        setPrice(data.stock * data.price);
+        setAmount(data.stock);
+      }
+    } else {
+      setPrice(data.price);
+      setAmount(1);
+    }
+  }, []);
+
+  const rupiahFormat = (angka, prefix) => {
+    var number_string = angka.toString().replace(/[^,\d]/g, '');
+    var split = number_string.split(',');
+    var sisa = split[0].length % 3;
+    var rupiah = split[0].substr(0, sisa);
+    var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      var separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? 'Rp.' + rupiah : '';
+  };
+
+  const memoizedRupiahFormat = useMemo(
+    () => rupiahFormat(price, 'Rp.'),
+    [price],
+  );
+
   return (
     <View style={styles.page}>
       <CartPhoto photo={data.photo} />
@@ -40,10 +99,14 @@ const Cart = ({data}) => {
         <View style={styles.subtotalContainer}>
           <View style={styles.countContainer}>
             <CartAddButton onPress={addAmount} />
-            <CartInput amount={amount} />
+            <CartInput
+              amount={amount}
+              updateAmount={updateAmount}
+              onSubmit={updateSubmitAmount}
+            />
             <CartReduceButton onPress={reduceAmount} />
           </View>
-          <Text style={styles.price}>Rp {price}</Text>
+          <Text style={styles.price}>{memoizedRupiahFormat}</Text>
         </View>
       </View>
     </View>
@@ -51,12 +114,10 @@ const Cart = ({data}) => {
 };
 
 const CartPhoto = React.memo(({photo}) => {
-  console.log('CartPhoto renderered');
   return <Image source={photo} style={styles.photo} />;
 });
 
 const CartTitleAndBrand = React.memo(({title, brand, variant}) => {
-  console.log('CartTitleAndBrand renderer');
   return (
     <View>
       <Text style={styles.title}>{title}</Text>
@@ -67,8 +128,7 @@ const CartTitleAndBrand = React.memo(({title, brand, variant}) => {
   );
 });
 
-const CartInput = React.memo(({amount}) => {
-  console.log('CartInput renderer');
+const CartInput = ({amount, updateAmount, onSubmit}) => {
   return (
     <TextInput
       style={styles.amount}
@@ -76,21 +136,23 @@ const CartInput = React.memo(({amount}) => {
       autoComplete="off"
       autoCapitalize="none"
       autoCorrect={false}
-      defaultValue={1}
-      value={amount + ''}
+      value={amount.toString()}
       maxLength={3}
       placeholder="1"
+      text={amount.toString()}
+      defaultValue="1"
+      onChangeText={updateAmount}
+      onSubmitEditing={onSubmit}
+      onEndEditing={onSubmit}
     />
   );
-});
+};
 
 const CartAddButton = React.memo(({onPress}) => {
-  console.log('CartAddButton renderer');
   return <IconButton icon="add" onPress={onPress} />;
 });
 
 const CartReduceButton = React.memo(({onPress}) => {
-  console.log('CartReduceButton renderer');
   return <IconButton icon="reduce" onPress={onPress} />;
 });
 

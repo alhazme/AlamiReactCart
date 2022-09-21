@@ -28,7 +28,6 @@ const ProgressBar = ({backgroundColor, completedColor}) => {
   };
 
   const resetAnimation = obj => {
-    console.log(obj);
     if (obj.finished) {
       progressAnimation.reset();
     }

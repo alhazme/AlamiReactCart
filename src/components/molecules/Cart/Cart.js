@@ -1,9 +1,8 @@
-import React, {useState, useCallback, useMemo} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
-import {data} from '../../../assets/data';
 import IconButton from '../../atoms/Button/IconButton';
 
-const Cart = () => {
+const Cart = ({data}) => {
   const [price, setPrice] = useState(data.price);
   const [amount, setAmount] = useState(1);
 
@@ -78,10 +77,10 @@ const CartInput = React.memo(({amount}) => {
       autoCapitalize="none"
       autoCorrect={false}
       defaultValue={1}
-      value={amount}
-      maxLength={3}>
-      {amount}
-    </TextInput>
+      value={amount + ''}
+      maxLength={3}
+      placeholder="1"
+    />
   );
 });
 
@@ -99,6 +98,8 @@ const styles = StyleSheet.create({
   page: {
     padding: 16,
     flexDirection: 'row',
+    height: 111,
+    backgroundColor: 'white',
   },
   photo: {
     width: 80,
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#000000',
+    paddingBottom: 4,
   },
   price: {
     fontSize: 14,

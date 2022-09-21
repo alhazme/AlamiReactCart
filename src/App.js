@@ -6,26 +6,23 @@
  * @flow strict-local
  */
 
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import React from 'react';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {CartPage, DevicePage} from './pages';
-import {ProgressBar} from './components';
+import {NavigationContainer} from '@react-navigation/native';
+import Router from './router';
+// import Router from './router';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <CartPage />
-      <StatusBar />
-      <ProgressBar
-        percentage={0}
-        height={25}
-        backgroundColor="#444444"
-        completedColor="#1987FF"
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
+    // <SafeAreaView>
+    //   <StatusBar />
+    //   <CartPage />
+    // </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;

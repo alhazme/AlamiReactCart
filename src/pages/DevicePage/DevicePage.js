@@ -11,7 +11,7 @@ import {
 
 const {MFDeviceInfo} = NativeModules;
 
-const DevicePage = () => {
+const DevicePage = ({navigation}) => {
   const [deviceID, setDeviceID] = useState('');
 
   const getDeviceID = () => {

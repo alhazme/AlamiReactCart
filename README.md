@@ -10,7 +10,10 @@ This repository was solved problem of Mobile React Native Test
 - type `bundle install`
 - type `cd ios`
 - type `pod install`
-- type `cd ..`
+
+## How to run
+- Open your terminal
+- type `cd <path_cloned_repository>`
 - type `npm start`
 - press `command + T` on your terminal
 - type `npm run ios` or `npm run android`

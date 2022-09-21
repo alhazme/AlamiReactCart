@@ -10,17 +10,21 @@ const Cart = () => {
   const addAmount = useCallback(() => {
     setAmount(prev => {
       if (prev >= data.stock) {
+        setPrice(prev * data.price);
         return prev;
       }
+      setPrice((prev + 1) * data.price);
       return prev + 1;
     });
   }, []);
 
   const reduceAmount = useCallback(() => {
     setAmount(prev => {
-      if (prev <= 0) {
-        return 0;
+      if (prev <= 1) {
+        setPrice(data.price);
+        return 1;
       }
+      setPrice((prev - 1) * data.price);
       return prev - 1;
     });
   }, []);
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 14,
-    color: '#FF5722',
+    color: '#1987FF',
     fontWeight: '800',
     textAlign: 'right',
   },

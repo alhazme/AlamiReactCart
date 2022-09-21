@@ -7,22 +7,21 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  NativeModules,
-} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {CartPage, DevicePage} from './pages';
+import {ProgressBar} from './components';
 
 const App = () => {
   return (
     <SafeAreaView>
-      <StatusBar />
       <CartPage />
+      <StatusBar />
+      <ProgressBar
+        percentage={0}
+        height={25}
+        backgroundColor="#444444"
+        completedColor="#1987FF"
+      />
     </SafeAreaView>
   );
 };

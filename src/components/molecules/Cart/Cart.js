@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {
   CartPhoto,
@@ -8,70 +8,7 @@ import {
   CartReduceButton,
 } from '../../atoms';
 
-const Cart = ({data}) => {
-  const [price, setPrice] = useState(data.price);
-  const [amount, setAmount] = useState(1);
-
-  const addAmount = useCallback(() => {
-    setAmount(prev => {
-      if (prev >= data.stock) {
-        setPrice(prev * data.price);
-        return prev;
-      }
-      setPrice((prev + 1) * data.price);
-      return prev + 1;
-    });
-  }, []);
-
-  const reduceAmount = useCallback(() => {
-    setAmount(prev => {
-      if (prev <= 1) {
-        setPrice(data.price);
-        return 1;
-      }
-      setPrice((prev - 1) * data.price);
-      return prev - 1;
-    });
-  }, []);
-
-  const updateAmount = useCallback(text => {
-    if (text.length > 0) {
-      var updatedAmount = Number(text);
-      if (updatedAmount <= 1) {
-        setPrice(data.price);
-        setAmount(1);
-      } else if (updatedAmount > 1 && updatedAmount <= data.stock) {
-        setPrice(updatedAmount * data.price);
-        setAmount(updatedAmount);
-      } else {
-        setAmount(updatedAmount);
-      }
-    } else {
-      setPrice(0);
-      setAmount(0);
-    }
-  }, []);
-
-  const updateSubmitAmount = useCallback(event => {
-    var text = event.nativeEvent.text;
-    if (text.length > 0) {
-      var updatedAmount = Number(text);
-      if (updatedAmount <= 1) {
-        setPrice(data.price);
-        setAmount(1);
-      } else if (updatedAmount > 1 && updatedAmount <= data.stock) {
-        setPrice(updatedAmount * data.price);
-        setAmount(updatedAmount);
-      } else {
-        setPrice(data.stock * data.price);
-        setAmount(data.stock);
-      }
-    } else {
-      setPrice(data.price);
-      setAmount(1);
-    }
-  }, []);
-
+const Cart = ({data, addAmount, reduceAmount, updateAmount, submitAmount}) => {
   const rupiahFormat = (angka, prefix) => {
     var number_string = angka.toString().replace(/[^,\d]/g, '');
     var split = number_string.split(',');
@@ -89,26 +26,28 @@ const Cart = ({data}) => {
   };
 
   const memoizedRupiahFormat = useMemo(
-    () => rupiahFormat(price, 'Rp.'),
-    [price],
+    () => rupiahFormat(data.subtotal, 'Rp.'),
+    [data.subtotal],
   );
 
   return (
     <View style={styles.page}>
-      <CartPhoto photo={data.photo} />
+      <CartPhoto
+        photo={'https://alhaz.me/data/product/images/' + data.item.photo}
+      />
       <View style={styles.textContainer}>
         <CartTitleAndBrand
-          title={data.title}
-          brand={data.brand}
-          variant={data.variant}
+          title={data.item.title}
+          brand={data.item.brand}
+          variant={data.item.variant}
         />
         <View style={styles.subtotalContainer}>
           <View style={styles.countContainer}>
             <CartAddButton onPress={addAmount} />
             <CartInput
-              amount={amount}
+              amount={data.quantity}
               updateAmount={updateAmount}
-              onSubmit={updateSubmitAmount}
+              onSubmit={submitAmount}
             />
             <CartReduceButton onPress={reduceAmount} />
           </View>

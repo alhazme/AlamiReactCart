@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const ProgressBar = ({backgroundColor, completedColor}) => {
+const ProgressBar = ({backgroundColor, completedColor, onCompleted}) => {
   const [isInitialized, setIsInitialized] = useState(true);
   const [isFinished, setIsFinished] = useState(false);
   const [getPercentage, setPercentage] = useState(new Animated.Value(1));
@@ -30,6 +30,7 @@ const ProgressBar = ({backgroundColor, completedColor}) => {
   const resetAnimation = obj => {
     if (obj.finished) {
       progressAnimation.reset();
+      onCompleted();
     }
     setIsFinished(obj.finished);
   };

@@ -7,13 +7,22 @@ import {
   View,
   Button,
 } from 'react-native';
-import {datas} from '../../assets';
 import {Cart, ProgressBar} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getCarts,
+  addAmount,
+  reduceAmount,
+  updateAmount,
+  submitAmount,
+} from '../../actions/cartsSlice';
+
 const CartPage = ({navigation}) => {
   const nav = useNavigation();
-  const cartItem = ({item}) => <Cart data={item} />;
+  const dispatch = useDispatch();
+  const {carts} = useSelector(state => state.carts);
 
   const openAboutPage = () => {
     navigation.navigate('DevicePage');
@@ -25,14 +34,35 @@ const CartPage = ({navigation}) => {
         <Button onPress={openAboutPage} title="About" color="#1987FF" />
       ),
     });
-  });
+    dispatch(getCarts());
+  }, []);
+
+  const cartItem = ({item}) => {
+    return (
+      <Cart
+        data={item}
+        addAmount={() => {
+          dispatch(addAmount(item.id));
+        }}
+        reduceAmount={() => {
+          dispatch(reduceAmount(item.id));
+        }}
+        updateAmount={text => {
+          dispatch(updateAmount({id: item.id, text: text}));
+        }}
+        submitAmount={event => {
+          dispatch(submitAmount({id: item.id, text: event.nativeEvent.text}));
+        }}
+      />
+    );
+  };
 
   return (
     <SafeAreaView>
       <StatusBar />
       <View>
         <FlatList
-          data={datas}
+          data={carts}
           renderItem={cartItem}
           keyExtractor={item => item.id}
           style={styles.list}
@@ -44,6 +74,10 @@ const CartPage = ({navigation}) => {
             height={25}
             backgroundColor="#444444"
             completedColor="#1987FF"
+            onCompleted={() => {
+              console.log('waktunya pindah halaman');
+              openAboutPage();
+            }}
           />
         </View>
       </View>

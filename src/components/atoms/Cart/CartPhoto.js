@@ -5,7 +5,7 @@ const CartPhoto = ({photo}) => {
   return <Image source={photo} style={styles.photo} />;
 };
 
-const styles = StyleSheet({
+const styles = StyleSheet.create({
   photo: {
     width: 80,
     height: 80,

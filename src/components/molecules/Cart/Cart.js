@@ -1,11 +1,11 @@
 import React, {useState, useCallback, useMemo} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {
+  CartPhoto,
+  CartTitleAndBrand,
   CartAddButton,
   CartInput,
-  CartPhoto,
   CartReduceButton,
-  CartTitleAndBrand,
 } from '../../atoms';
 
 const Cart = ({data}) => {

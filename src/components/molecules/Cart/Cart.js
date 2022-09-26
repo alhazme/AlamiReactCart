@@ -1,6 +1,12 @@
 import React, {useState, useCallback, useMemo} from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
-import IconButton from '../../atoms/Button/IconButton';
+import {Text, View, StyleSheet} from 'react-native';
+import {
+  CartAddButton,
+  CartInput,
+  CartPhoto,
+  CartReduceButton,
+  CartTitleAndBrand,
+} from '../../atoms';
 
 const Cart = ({data}) => {
   const [price, setPrice] = useState(data.price);
@@ -113,49 +119,6 @@ const Cart = ({data}) => {
   );
 };
 
-const CartPhoto = React.memo(({photo}) => {
-  return <Image source={photo} style={styles.photo} />;
-});
-
-const CartTitleAndBrand = React.memo(({title, brand, variant}) => {
-  return (
-    <View>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.brand}>
-        {brand} - {variant}
-      </Text>
-    </View>
-  );
-});
-
-const CartInput = ({amount, updateAmount, onSubmit}) => {
-  return (
-    <TextInput
-      style={styles.amount}
-      keyboardType="number-pad"
-      autoComplete="off"
-      autoCapitalize="none"
-      autoCorrect={false}
-      value={amount.toString()}
-      maxLength={3}
-      placeholder="1"
-      text={amount.toString()}
-      defaultValue="1"
-      onChangeText={updateAmount}
-      onSubmitEditing={onSubmit}
-      onEndEditing={onSubmit}
-    />
-  );
-};
-
-const CartAddButton = React.memo(({onPress}) => {
-  return <IconButton icon="add" onPress={onPress} />;
-});
-
-const CartReduceButton = React.memo(({onPress}) => {
-  return <IconButton icon="reduce" onPress={onPress} />;
-});
-
 const styles = StyleSheet.create({
   page: {
     padding: 16,
@@ -163,24 +126,9 @@ const styles = StyleSheet.create({
     height: 111,
     backgroundColor: 'white',
   },
-  photo: {
-    width: 80,
-    height: 80,
-  },
   textContainer: {
     marginLeft: 16,
     flex: 1,
-  },
-  title: {
-    fontSize: 14,
-    color: 'black',
-    fontWeight: '600',
-  },
-  brand: {
-    marginTop: 4,
-    fontSize: 14,
-    color: '#747474',
-    fontWeight: '600',
   },
   subtotalContainer: {
     marginTop: 8,
@@ -193,14 +141,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  amount: {
-    marginHorizontal: 8,
-    width: 50,
-    textAlign: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000',
-    paddingBottom: 4,
   },
   price: {
     fontSize: 14,

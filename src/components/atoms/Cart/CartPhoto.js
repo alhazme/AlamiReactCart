@@ -1,0 +1,15 @@
+import React, {memo} from 'react';
+import {Image, StyleSheet} from 'react-native';
+
+const CartPhoto = ({photo}) => {
+  return <Image source={photo} style={styles.photo} />;
+};
+
+const styles = StyleSheet({
+  photo: {
+    width: 80,
+    height: 80,
+  },
+});
+
+export default memo(CartPhoto);
